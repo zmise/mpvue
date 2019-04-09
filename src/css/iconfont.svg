@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="feiji-" unicode="&#58916;" d="M938.6 466.8H605.1L276.4 844.6H173.6l216-377.8H130.5L7 615v-461.8l121.4 145.6h261.3L173.6-79h102.8l328.7 377.8h333.5c46.1 0 83.4 37.3 83.4 83.4v1.1c0 46.1-37.3 83.5-83.4 83.5z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

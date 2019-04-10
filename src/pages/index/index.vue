@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="overflow:hidden">
     <div class="img-box">
       <img v-show="loading" src="../../assets/img/header.png" alt>
       <img v-show="!loading" src="../../assets/img/header2.png" alt>
@@ -80,7 +80,7 @@
               :value="deliveryCity"
               disabled
               placeholder="城市"
-              @click="show2=true"
+              @click="openCitySelect({deliveryCity:deliveryCity})"
               style="height: 40px;width: 100%;text-align:center;font-size: 24px;font-weight: 700;color: #323332"
             >
           </div>
@@ -95,22 +95,30 @@
               :value="destinationCity"
               disabled
               placeholder="城市"
-              @click="show3=true"
+              @click="openCitySelect({destinationCity:destinationCity})"
               style="height: 40px;width: 100%;text-align:center;font-size: 24px;font-weight: 700;color: #323332"
             >
           </div>
         </div>
-        <van-popup :show="show4" position="bottom" overlay="false">
-          <van-datetime-picker
+        <van-popup :show="show4" position="bottom" overlay="false" @click-overlay="console.log(11)" style="overflow-y:hidden">
+          <!-- <van-datetime-picker
             type="date"
             :value="currentDate"
             :min-date="minDate"
             @change="change"
             @cancel="onClose(4)"
             @confirm="confirm"
-          />
+          />-->
+          <div class="ub-box ub-between ub-ver-v" style="height:50px">
+            <div style="color:#000;font-size:24px;font-weight:600;margin-left:15px">选发货日期</div>
+            <div
+              style="padding-right:15px;width:30px;height:50px;font-size:24px;color:#ccc;line-height:50px;text-align:center;"
+              @click="show4=false"
+              >x</div>
+          </div>
+          <CalendarInit :currentDate="currentDate" v-on:childByValue="childByValue"/>
         </van-popup>
-        <div class="itmebox ub-box ub-ver ub-between" @click="show4=true">
+        <div class="itmebox ub-box ub-ver ub-between" @click="openCaleSelect()">
           <div style="font-size: 24px;font-weight: 600;color: #323332" class="ft-f">{{date}}</div>
           <div style="font-size:15px;color:#bbb;margin-right: 80px;" class="ft-f">{{week}}</div>
           <van-icon name="arrow" style="font-size:24px;color:#bbb"/>
@@ -158,7 +166,12 @@
     <div class="route-list ub-box ub-col">
       <div class="title">热门航线</div>
       <div class="content ub-box ub-flex-1 ub-wrap">
-        <div class="itme ub-box ub-wrap" v-for="(item, index) in airline_arr" :key="item" :data-index="index">
+        <div
+          class="itme ub-box ub-wrap"
+          v-for="(item, index) in airline_arr"
+          :key="item"
+          :data-index="index"
+        >
           <div class="ub-box box ub-ver-v">
             <img src="../../assets/img/user.png" alt class="image">
           </div>
@@ -180,11 +193,16 @@
   </div>
 </template>
 <script>
+import CalendarInit from "../../components/calendar";
+
 export default {
-  components: {},
+  components: {
+    CalendarInit
+  },
   computed: {},
   data() {
     return {
+      true: true,
       show: false,
       show4: false,
       show3: false,
@@ -214,10 +232,17 @@ export default {
       date: "",
       continent_info: [],
       airline_arr: [], //推荐航线
-      flight_img_arr: [] //航空公司图片
+      flight_img_arr: [], //航空公司图片
+      newDate: new Date().getTime()
     };
   },
   methods: {
+  openCitySelect(val){
+    this.$navigateTo('citySelect',val)
+  },
+   openCaleSelect(val){
+    this.$navigateTo('caleSelect', this.newDate)
+  },
     initData() {
       // let request = this.$get("/get/all/continent", "");
       this.continent_info = [
@@ -638,10 +663,11 @@ export default {
           break;
       }
     },
-    confirm(val) {
-      this.currentDate = val.mp.detail;
-      const date = new Date(val.mp.detail);
-      this.date = date.getMonth() + "月" + date.getDate() + "日";
+    childByValue: function(childValue) {
+      this.currentDate = childValue.date.replace(/\-/g, "/");
+      const date = new Date(this.currentDate);
+
+      this.date = date.getMonth()+1 + "月" + date.getDate() + "日";
       let day;
       switch (date.getDay()) {
         case 0:
@@ -881,7 +907,7 @@ export default {
       .txt-content {
         // margin-top: 10px;
         margin-right: 20px;
-        flex:1;
+        flex: 1;
         justify-content: center;
         color: #424242;
 

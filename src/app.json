@@ -3,7 +3,9 @@
     "pages/index/main",
     "pages/booking/main",
     "pages/orderList/main",
-    "pages/myself/main"
+    "pages/myself/main",
+    "pages/citySelect/main",
+    "pages/caleSelect/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

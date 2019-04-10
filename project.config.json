@@ -10,7 +10,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "wx4c1e7ce7d822fe0c",
+	"appid": "wx47bbead0749a6c95",
 	"projectname": "mpvue-demo",
 	"condition": {
 		"search": {

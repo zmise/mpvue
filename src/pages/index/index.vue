@@ -100,7 +100,13 @@
             >
           </div>
         </div>
-        <van-popup :show="show4" position="bottom" overlay="false" @click-overlay="console.log(11)" style="overflow-y:hidden">
+        <van-popup
+          :show="show4"
+          position="bottom"
+          overlay="false"
+          @click-overlay="console.log(11)"
+          style="overflow-y:hidden"
+        >
           <!-- <van-datetime-picker
             type="date"
             :value="currentDate"
@@ -114,7 +120,7 @@
             <div
               style="padding-right:15px;width:30px;height:50px;font-size:24px;color:#ccc;line-height:50px;text-align:center;"
               @click="show4=false"
-              >x</div>
+            >x</div>
           </div>
           <CalendarInit :currentDate="currentDate" v-on:childByValue="childByValue"/>
         </van-popup>
@@ -233,16 +239,17 @@ export default {
       continent_info: [],
       airline_arr: [], //推荐航线
       flight_img_arr: [], //航空公司图片
-      newDate: new Date().getTime()
+      newDate: new Date().getTime(),
+      initDate:''
     };
   },
   methods: {
-  openCitySelect(val){
-    this.$navigateTo('citySelect',val)
-  },
-   openCaleSelect(val){
-    this.$navigateTo('caleSelect', this.newDate)
-  },
+    openCitySelect(val) {
+      this.$navigateTo("citySelect", val);
+    },
+    openCaleSelect(val) {
+      this.$navigateTo("caleSelect", {initDate:this.initDate});
+    },
     initData() {
       // let request = this.$get("/get/all/continent", "");
       this.continent_info = [
@@ -667,7 +674,7 @@ export default {
       this.currentDate = childValue.date.replace(/\-/g, "/");
       const date = new Date(this.currentDate);
 
-      this.date = date.getMonth()+1 + "月" + date.getDate() + "日";
+      this.date = date.getMonth() + 1 + "月" + date.getDate() + "日";
       let day;
       switch (date.getDay()) {
         case 0:
@@ -701,6 +708,38 @@ export default {
   },
   mounted() {
     this.initData();
+    console.log(this.$root.$mp.query)
+    if(this.$root.$mp.query.date&&this.$root.$mp.query.date!==''){
+      this.initDate =this.$root.$mp.query.date;
+      const date = new Date(this.$root.$mp.query.date);
+      console.log(date)
+      this.date = date.getMonth() + 1 + "月" + date.getDate() + "日";
+      let day;
+      switch (date.getDay()) {
+        case 0:
+          day = "星期日";
+          break;
+        case 1:
+          day = "星期一";
+          break;
+        case 2:
+          day = "星期二";
+          break;
+        case 3:
+          day = "星期三";
+          break;
+        case 4:
+          day = "星期四";
+          break;
+        case 5:
+          day = "星期五";
+          break;
+        case 6:
+          day = "星期六";
+          break;
+      }
+      this.week = day;
+    }
   },
   onPullDownRefresh() {},
   onClose() {

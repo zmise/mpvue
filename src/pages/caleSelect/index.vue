@@ -37,7 +37,7 @@
     </div>
     <div class="mouth" v-for="(items, index) in date" :key="index">
       <div class="mouthhead">{{items[index].year}}年{{items[index].month}}月</div>
-      <div class="daybox">
+      <div class="daybox ub-box ub-wrap">
         <div class="day" v-if="weeks[index]>0"></div>
         <div class="day" v-if="weeks[index]>1"></div>
         <div class="day" v-if="weeks[index]>2"></div>
@@ -45,14 +45,21 @@
         <div class="day" v-if="weeks[index]>4"></div>
         <div class="day" v-if="weeks[index]>5"></div>
         <div
+          v-if="item.isPastDay"
+          class="day past-day"
+          v-for="(item,index1) in items"
+          :key="item"
+          @click="selectday(index,index1)"
+        >{{item.day}}</div>
+        <div
+          v-if="!item.isPastDay"
           :class=" item.selected == 1 ? (item.week == 6||item.week == 0?'day bc currentcolor':'day bc '):(item.week == 6||item.week == 0?'day currentcolor':'day')"
           v-for="(item,index1) in items"
           :key="item"
           @click="selectday(index,index1)"
         >{{item.day}}</div>
+        <div class="day" v-for="(item2,index2) in items.slice(0, items.length % 7)" :key="index2">1</div>
       </div>
-        <!-- <div class="day" v-for="(item,index2) in items.slice(0,items.length%7)"></div> -->
-
     </div>
     <!-- <div class="none88" v-if="{{pagetype=='day'}}"></div> -->
     <!-- <div class="fixedbtn" bindtap="submitbtn" wx:if="{{pagetype=='day'}}">确认选择</div> -->
@@ -141,7 +148,7 @@ export default {
         nowMonthList.push(i);
       }
       let yearList = [year]; //年份最大可能
-      for (let i = 0; i < daysCount / 365 + 2; i++) {
+      for (let i = 0; i < daysCount / 365 + 1; i++) {
         yearList.push(year + i + 1);
       }
       let leapYear = function(Year) {
@@ -152,6 +159,7 @@ export default {
           return false;
         }
       };
+      console.log(yearList);
       for (let i = 0; i < yearList.length; i++) {
         //遍历年
         let mList;
@@ -214,6 +222,7 @@ export default {
                 //判断当年当月
                 if (k + 1 >= day) {
                   nowData = {
+                    isPastDay: 0,
                     year: yearList[i],
                     month: mList[j],
                     day: k + 1,
@@ -225,18 +234,33 @@ export default {
                     re: yearList[i] + "/" + mList[j] + "/" + days
                   };
                   dataMonth.push(nowData);
-                  if (k + 1 == day) {
-                    let date = new Date(
-                      yearList[i] + "/" + mList[j] + "/" + (k + 1)
-                    );
-                    let weekss = date.getDay(); //获取每个月第一天是周几
-                    weeks.push(weekss);
-                  }
+                  // if (k + 1 == day) {
+                  //   let date = new Date(
+                  //     yearList[i] + "/" + mList[j] + "/" + (k + 1)
+                  //   );
+                  //   let weekss = date.getDay(); //获取每个月第一天是周几
+                  //   weeks.push(weekss);
+                  // }
+                } else {
+                  nowData = {
+                    isPastDay: 1,
+                    year: yearList[i],
+                    month: mList[j],
+                    day: k + 1,
+                    date: yearList[i] + "" + mList[j] + days,
+                    selected: 0,
+                    week: new Date(
+                      yearList[i] + "/" + mList[j] + "/" + days
+                    ).getDay(),
+                    re: yearList[i] + "/" + mList[j] + "/" + days
+                  };
+                  dataMonth.push(nowData);
                 }
               } else {
                 //其他情况
                 nowData = {
                   //组装自己需要的数据
+                  isPastDay: 0,
                   year: yearList[i],
                   month: mList[j],
                   day: k + 1,
@@ -249,13 +273,11 @@ export default {
                   re: yearList[i] + "/" + mList[j] + "/" + days
                 };
                 dataMonth.push(nowData);
-                if (k == 0) {
-                  let date = new Date(
-                    yearList[i] + "/" + mList[j] + "/" + k + 1
-                  );
-                  let weekss = date.getDay(); //获取每个月第一天是周几
-                  weeks.push(weekss);
-                }
+              }
+              if (k == 0) {
+                let date = new Date(yearList[i] + "/" + mList[j] + "/" + k + 1);
+                let weekss = date.getDay(); //获取每个月第一天是周几
+                weeks.push(weekss);
               }
             } else {
               break;
@@ -313,9 +335,10 @@ export default {
   padding-bottom: 10rpx;  */
 }
 .daybox {
-  border-top: 1px solid #bbb;
+  // border-top: 1px solid #bbb;
+  border-bottom: 1px solid #bbb;
   background-color: white;
-  padding-top: 10rpx;
+  // padding-top: 10rpx;
 }
 .day {
   width: 107rpx;
@@ -323,15 +346,15 @@ export default {
   line-height: 107rpx;
   text-align: center;
   display: inline-block;
-  position: relative;
-  top: 0;
-  margin-top: -10rpx;
+  // position: relative;
+  // top: 0;
+  // margin-top: -10rpx;
   overflow: hidden;
   color: #323332;
   font-size: 13px;
   font-weight: 700;
-  border-bottom: 1px solid #bbb;
-   // border-top: 1px solid #bbb;
+  // border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
 }
 .day2 {
   color: #04babe;
@@ -374,5 +397,8 @@ export default {
 
 .currentcolor {
   color: #ff3a2f;
+}
+.past-day {
+  color: #b3b3b3;
 }
 </style>

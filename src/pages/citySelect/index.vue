@@ -84,15 +84,15 @@ export default {
         .catch(err => {});
     },
     changeBar(index, val) {
-      let flag = false;
       for (let i = 0; i < this.switchClass.length; i++) {
         if (
           this.switchClass[i].flag === 1 &&
           this.switchClass[i].name !== val
         ) {
           this.switchClass[i].flag = 0;
-          flag = true;
-          break;
+        }
+        if(this.switchClass[i].name === val){
+          this.switchClass[i].flag = 1;
         }
       }
 

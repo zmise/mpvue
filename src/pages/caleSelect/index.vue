@@ -2,11 +2,11 @@
   <div class="container">
     <div style="position:fixed; background:#fff;z-index:2">
       <div class="ub-box ub-between ub-ver-v" style="height:50px;width: 750rpx;">
-        <div style="color:#000;font-size:24px;font-weight:600;margin-left:15px">选发货日期</div>
+        <div style="color:#000;font-size:24px;margin-left:15px">选发货日期</div>
         <div
-          style="padding-right:15px;width:30px;height:50px;font-size:24px;color:#ccc;line-height:50px;text-align:center;"
+          style="padding-right:15px;width:30px;height:50px;font-size:40px;color:#ccc;line-height:50px;text-align:center;"
           @click="$navigateBack()"
-        >x</div>
+        >×</div>
       </div>
       <div class="headbox2">
         <div class="headdate currentcolor">日</div>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="ub-box ub-between ub-ver-v" style="height:50px;">
-      <div style="color:#000;font-size:24px;font-weight:600;margin-left:15px">选发货日期</div>
+      <div style="color:#000;font-size:24px;margin-left:15px">选发货日期</div>
       <div
         style="padding-right:15px;width:30px;height:50px;font-size:24px;color:#ccc;line-height:50px;text-align:center;"
         @click="$navigateBack()"
@@ -51,6 +51,8 @@
           @click="selectday(index,index1)"
         >{{item.day}}</div>
       </div>
+        <!-- <div class="day" v-for="(item,index2) in items.slice(0,items.length%7)"></div> -->
+
     </div>
     <!-- <div class="none88" v-if="{{pagetype=='day'}}"></div> -->
     <!-- <div class="fixedbtn" bindtap="submitbtn" wx:if="{{pagetype=='day'}}">确认选择</div> -->
@@ -312,11 +314,8 @@ export default {
 }
 .daybox {
   border-top: 1px solid #bbb;
-  border-bottom: 1px solid #bbb;
-
   background-color: white;
   padding-top: 10rpx;
-  padding-bottom: 10rpx;
 }
 .day {
   width: 107rpx;

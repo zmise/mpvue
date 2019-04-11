@@ -3,7 +3,7 @@ export default {
   data () {
     return {
       requestTask: {}, // http请求的requestTask
-      baseURL: 'https://yh8.topodoo.com', // http请求的base url,
+      baseURL: 'https://hy1.topodoo.com', // http请求的base url,
       bmapWxAk: 'sRAW4s9H8ccgU2QFARzaQnl1WRoPsYb6' // 百度地图的ak
     }
   },
@@ -30,11 +30,14 @@ export default {
       if (config.url.indexOf('http') !== 0) {
         config.url = this.baseURL + config.url
       }
+      // config['content-type'] =  'application/texts';
+      config['header'] =  { "content-type": "application/x-www-form-urlencoded" } ;
       return new Promise((resolve, reject) => {
         let requestTask = wx.request({
           ...config,
           success: (res) => {
             if (res.statusCode === 200) {
+              console.log(res)
               resolve(res)
             } else {
               reject(res)
@@ -46,6 +49,28 @@ export default {
           this.requestTask[option.requestToken] = requestTask
         }
       })
+// console.log(config)
+//       let requestTask = wx.request({
+//         ...config,
+//         success: (res) => {
+//           if (res.statusCode === 200) {
+//             // resolve(res)
+//             return res
+//           } else {
+//             // reject(res)
+//             return res
+
+//           }
+//         },
+//         fail: (res)=>{
+//           return res
+//         }
+//       })
+//       if (config.requestToken) {
+//         this.requestTask[option.requestToken] = requestTask
+//       }
+
+//       return requestTask
     },
     // http get 请求
     $get (url, data, other) {

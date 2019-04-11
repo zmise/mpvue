@@ -240,7 +240,7 @@ export default {
       airline_arr: [], //推荐航线
       flight_img_arr: [], //航空公司图片
       newDate: new Date().getTime(),
-      initDate:''
+      initDate: ""
     };
   },
   methods: {
@@ -248,354 +248,16 @@ export default {
       this.$navigateTo("citySelect", val);
     },
     openCaleSelect(val) {
-      this.$navigateTo("caleSelect", {initDate:this.initDate});
+      this.$navigateTo("caleSelect", { initDate: this.initDate });
     },
     initData() {
-      // let request = this.$get("/get/all/continent", "");
-      this.continent_info = [
-        {
-          id: 0,
-          name: "全部"
-        },
-        {
-          id: 1,
-          image:
-            "http://yh8.topodoo.com/wechat/attach/image/yhb.continent/1/upload_picture",
-          name: "亚洲",
-          count: 0,
-          img_url:
-            "http://yh8.topodoo.com/wechat/continent/image?item_id=1&time=9654440017"
-        },
-        {
-          id: 2,
-          image:
-            "http://yh8.topodoo.com/wechat/attach/image/yhb.continent/2/upload_picture",
-          name: "大洋洲",
-          count: 0,
-          img_url:
-            "http://yh8.topodoo.com/wechat/continent/image?item_id=2&time=4764978223"
-        },
-        {
-          id: 3,
-          image:
-            "http://yh8.topodoo.com/wechat/attach/image/yhb.continent/3/upload_picture",
-          name: "北美洲",
-          count: 0,
-          img_url:
-            "http://yh8.topodoo.com/wechat/continent/image?item_id=3&time=7609313667"
-        },
-        {
-          id: 4,
-          image:
-            "http://yh8.topodoo.com/wechat/attach/image/yhb.continent/4/upload_picture",
-          name: "南美洲",
-          count: 0,
-          img_url:
-            "http://yh8.topodoo.com/wechat/continent/image?item_id=4&time=4085266879"
-        },
-        {
-          id: 5,
-          image:
-            "http://yh8.topodoo.com/wechat/attach/image/yhb.continent/5/upload_picture",
-          name: "欧洲",
-          count: 0,
-          img_url:
-            "http://yh8.topodoo.com/wechat/continent/image?item_id=5&time=4336403151"
-        }
-      ];
-
-      this.airline_arr = [
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "D1.2.3.4.5",
-          arrive_site: "LAX",
-          price: 13.5,
-          indate: "2019-09-01",
-          hour: "09小时33分钟",
-          currency_name: "¥",
-          arrive_continent_id: 3,
-          flight_id: 541,
-          airline_id: 1,
-          flight_name: "ZH4524",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "06:30",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "洛杉矶",
-          stopovers_site_name: "",
-          time_limit: 8.5,
-          sequence: 10,
-          arrive_time: "08:03"
-        },
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "D1.2.3.4.5.6",
-          arrive_site: "PEK",
-          price: 5,
-          indate: "2019-12-02",
-          hour: "12小时00分钟",
-          currency_name: "¥",
-          arrive_continent_id: 1,
-          flight_id: 2,
-          airline_id: 4,
-          flight_name: "ZH5697",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "10:03",
-          stopovers_continent_id: false,
-          flight_type: "客机",
-          stopovers_site: "",
-          arrive_sitename: "北京首都",
-          stopovers_site_name: "",
-          time_limit: 8.01,
-          sequence: 3,
-          arrive_time: "14:03"
-        },
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "D1.2.3.4.5.6",
-          arrive_site: "CAN",
-          price: 4.5,
-          indate: "2019-12-04",
-          hour: "11小时00分钟",
-          currency_name: "¥",
-          arrive_continent_id: 1,
-          flight_id: 5,
-          airline_id: 5,
-          flight_name: "ZH9623",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "14:03",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "广州",
-          stopovers_site_name: "",
-          time_limit: 8.01,
-          sequence: 2,
-          arrive_time: "17:03"
-        },
-        {
-          ricetype: "",
-          add_day: 1,
-          weeks: "D1.3.5.7",
-          arrive_site: "LAX",
-          price: 12,
-          indate: "2019-10-01",
-          hour: "26小时00分钟",
-          currency_name: "¥",
-          arrive_continent_id: 3,
-          flight_id: 5,
-          airline_id: 2,
-          flight_name: "ZH9623",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "14:03",
-          stopovers_continent_id: 1,
-          flight_type: "货机",
-          stopovers_site: "CAN",
-          arrive_sitename: "洛杉矶",
-          stopovers_site_name: "广州",
-          time_limit: 8.01,
-          sequence: 2,
-          arrive_time: "08:03"
-        },
-        {
-          ricetype: "",
-          add_day: 1,
-          weeks: "D2.4.6",
-          arrive_site: "LAX",
-          price: 14.5,
-          indate: "2019-09-14",
-          hour: "37小时0分钟",
-          currency_name: "¥",
-          arrive_continent_id: 3,
-          flight_id: 2,
-          airline_id: 3,
-          flight_name: "ZH5697",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "03:03",
-          stopovers_continent_id: 1,
-          flight_type: "客机",
-          stopovers_site: "PEK",
-          arrive_sitename: "洛杉矶",
-          stopovers_site_name: "北京首都",
-          time_limit: 8.01,
-          sequence: 2,
-          arrive_time: "08:03"
-        },
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "D1.2.3.4",
-          arrive_site: "LAX",
-          price: 0,
-          indate: "",
-          hour: "19小时56分钟",
-          currency_name: "",
-          arrive_continent_id: 3,
-          flight_id: 1,
-          airline_id: 167,
-          flight_name: "ZH5696",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "06:08",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "洛杉矶",
-          stopovers_site_name: "",
-          time_limit: 8.01,
-          sequence: 0,
-          arrive_time: "18:04"
-        },
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "D1.2.3.4.5",
-          arrive_site: "LAX",
-          price: 0,
-          indate: "",
-          hour: "13小时01分钟",
-          currency_name: "",
-          arrive_continent_id: 3,
-          flight_id: 1,
-          airline_id: 170,
-          flight_name: "ZH5696",
-          fly_site_name: "长沙",
-          airline_company_id: 1,
-          airline_company_name: "深航",
-          fly_date: "2019-04-08",
-          fly_site: "CSX",
-          id: "",
-          fly_time: "03:03",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "洛杉矶",
-          stopovers_site_name: "",
-          time_limit: 8.01,
-          sequence: 0,
-          arrive_time: "08:04"
-        },
-        {
-          ricetype: "",
-          add_day: 0,
-          weeks: "Daily",
-          arrive_site: "SFO",
-          price: 150,
-          indate: "2019-03-30",
-          hour: "20小时50分钟",
-          currency_name: "¥",
-          arrive_continent_id: 3,
-          flight_id: 248,
-          airline_id: 33,
-          flight_name: "BR0018",
-          fly_site_name: "深圳",
-          airline_company_id: 11,
-          airline_company_name: "长荣航空",
-          fly_date: "2019-04-08",
-          fly_site: "SZX",
-          id: "",
-          fly_time: "19:40",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "圣弗朗西斯",
-          stopovers_site_name: "",
-          time_limit: 1.33,
-          sequence: 0,
-          arrive_time: "16:30"
-        },
-        {
-          ricetype: "",
-          add_day: 6,
-          weeks: "Daily",
-          arrive_site: "YVR",
-          price: 17.7,
-          indate: "2019-03-15",
-          hour: "165小时5分钟",
-          currency_name: "¥",
-          arrive_continent_id: 3,
-          flight_id: 586,
-          airline_id: 155,
-          flight_name: "CZ329",
-          fly_site_name: "广州",
-          airline_company_id: 15,
-          airline_company_name: "南航",
-          fly_date: "2019-04-08",
-          fly_site: "CAN",
-          id: "",
-          fly_time: "14:00",
-          stopovers_continent_id: false,
-          flight_type: "客机",
-          stopovers_site: "",
-          arrive_sitename: "温哥华",
-          stopovers_site_name: "",
-          time_limit: 0,
-          sequence: 0,
-          arrive_time: "11:05"
-        },
-        {
-          ricetype: "",
-          add_day: 1,
-          weeks: "Daily",
-          arrive_site: "VIE",
-          price: 13,
-          indate: "2019-03-30",
-          hour: "34小时5分钟",
-          currency_name: "¥",
-          arrive_continent_id: 5,
-          flight_id: 341,
-          airline_id: 45,
-          flight_name: "BR0061",
-          fly_site_name: "深圳",
-          airline_company_id: 11,
-          airline_company_name: "长荣航空",
-          fly_date: "2019-04-08",
-          fly_site: "SZX",
-          id: "",
-          fly_time: "22:30",
-          stopovers_continent_id: false,
-          flight_type: "货机",
-          stopovers_site: "",
-          arrive_sitename: "维也纳",
-          stopovers_site_name: "",
-          time_limit: 0,
-          sequence: 0,
-          arrive_time: "08:35"
-        }
-      ];
+      this.$get("/get/all/continent", "")
+        .then(({ data }) => {
+          console.log(data);
+          this.continent_info = data.continent_arr;
+          this.airline_arr = data.airline_arr;
+        })
+        .catch(err => {});
     },
     onSelect(index, val) {
       switch (index) {
@@ -708,11 +370,11 @@ export default {
   },
   mounted() {
     this.initData();
-    console.log(this.$root.$mp.query)
-    if(this.$root.$mp.query.date&&this.$root.$mp.query.date!==''){
-      this.initDate =this.$root.$mp.query.date;
+    // console.log(this.$root.$mp.query);
+    if (this.$root.$mp.query.date && this.$root.$mp.query.date !== "") {
+      this.initDate = this.$root.$mp.query.date;
       const date = new Date(this.$root.$mp.query.date);
-      console.log(date)
+      console.log(date);
       this.date = date.getMonth() + 1 + "月" + date.getDate() + "日";
       let day;
       switch (date.getDay()) {
@@ -930,6 +592,7 @@ export default {
       height: 50px;
       min-height: 50px;
       margin-left: 15px;
+      margin-bottom: 8px;
       border: 0.5px solid #bbbbbb;
 
       .box {

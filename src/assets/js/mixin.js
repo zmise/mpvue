@@ -3,7 +3,7 @@ export default {
   data () {
     return {
       requestTask: {}, // http请求的requestTask
-      baseURL: 'https://hy1.topodoo.com', // http请求的base url,
+      baseURL: 'https://yh8.topodoo.com', // http请求的base url,
       bmapWxAk: 'sRAW4s9H8ccgU2QFARzaQnl1WRoPsYb6' // 百度地图的ak
     }
   },

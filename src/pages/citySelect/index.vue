@@ -1,19 +1,44 @@
 <template>
   <div class="container ub-box ub-col" style="height:100%">
-    <div class="ub-box ub-between ub-ver-v" style="height:50px">
+    <div class="ub-box ub-between ub-ver-v" style="height:50px" v-if="show">
       <div style="color:#000;font-size:24px;margin-left:15px">选发货日期</div>
       <div
         style="padding-right:15px;width:30px;height:50px;font-size:40px;color:#ccc;line-height:50px;text-align:center;"
         @click="$navigateBack()"
       >×</div>
     </div>
-    <div class="search-body ub-box ub-ver">
+    <div class="search-body ub-box ub-ver" v-if="show">
       <div class="text-body ub-box ub-ver-v">
         <i class="search-icon ub-box ub-ver">
           <van-icon name="search" style="font-size:20px;color:#ccc"/>
         </i>
-        <input class="text" type="text" v-model="searchText" placeholder="请输入城市名(如北京/BEIJING/BJ)">
+        <input
+          class="text"
+          type="text"
+          v-model="searchText"
+          placeholder="请输入城市名(如北京/BEIJING/BJ)"
+          @focus="focus($event)"
+        >
       </div>
+    </div>
+    <div
+      class="search-body ub-box ub-ver"
+      v-if="!show"
+      style="position:fixed;z-index:10;left:0;right:0;"
+    >
+      <div class="text-body ub-box ub-ver-v">
+        <i class="search-icon ub-box ub-ver">
+          <van-icon name="search" style="font-size:20px;color:#ccc"/>
+        </i>
+        <input
+          class="text"
+          type="text"
+          v-model="searchText"
+          placeholder="请输入城市名(如北京/BEIJING/BJ)"
+          @focus="focus($event)"
+        >
+      </div>
+      <div @click="cancle" style="height:100%;padding: 0 10px;" class="ub-box ub-ver">取消</div>
     </div>
     <div class="content-body ub-flex-1 ub-box">
       <div
@@ -43,17 +68,29 @@
         </div>
       </div>
     </div>
+    <div class="overlay" style="position:fixed;z-index:5" v-if="!show"></div>
+    <div class="data-content" style="position:fixed;z-index:9;" v-if="searchCityData.length!==0">
+      <div
+        class="box ub-box ub-ver-v"
+        v-for="(item,index) in searchCityData "
+        :key="index"
+      >{{item.city}}</div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      show: true,
+      isData: false,
       searchText: "",
       switchClass: [],
-      chainCityArr: [],
-      otherCityArr: [],
-      cityArr: []
+      // chainCityArr: [],
+      // otherCityArr: [],
+      cityData: "",
+      cityArr: [],
+      searchCityData: []
     };
   },
   mounted() {
@@ -62,16 +99,18 @@ export default {
       { name: "国内", flag: 1 },
       { name: "国际/港澳台", flag: 0 }
     ];
-    this.chainCityArr = [
-      { initial: "a", list: ["三亚", "上海市"] },
-      { initial: "b", list: ["北京市", "北海"] }
-    ];
-    this.otherCityArr = [
-      { initial: "a", list: ["埃因霍温 ", " 埃尔帕索 "] },
-      { initial: "b", list: [" 不来梅 ", "伯尔尼 "] }
-    ];
+    this.cityData = {
+      0: [
+        { initial: "a", list: ["三亚", "上海市"] },
+        { initial: "b", list: ["北京市", "北海"] }
+      ],
+      1: [
+        { initial: "a", list: ["埃因霍温 ", " 埃尔帕索 "] },
+        { initial: "b", list: [" 不来梅 ", "伯尔尼 "] }
+      ]
+    };
 
-    this.cityArr = this.chainCityArr;
+    this.cityArr = this.cityData[0];
   },
   methods: {
     initData() {
@@ -91,22 +130,31 @@ export default {
         ) {
           this.switchClass[i].flag = 0;
         }
-        if(this.switchClass[i].name === val){
+        if (this.switchClass[i].name === val) {
           this.switchClass[i].flag = 1;
         }
       }
-
-      switch (index) {
-        case 0:
-          this.cityArr = this.chainCityArr;
-          break;
-        case 1:
-          this.cityArr = this.otherCityArr;
-          break;
-
-        default:
-          break;
-      }
+      this.cityArr = this.cityData[index];
+    },
+    focus(e) {
+      this.show = false;
+    },
+    cancle() {
+      this.show = true;
+      this.searchCityData = [];
+      // this.searchText='';
+    },
+  },
+  watch: {
+    searchText: function() {
+      //搜索
+      this.$get("/search/all/city", { city_name: this.searchText })
+        .then(({ data }) => {
+          this.searchCityData = data.city_arr || [];
+        })
+        .catch(err => {
+          this.searchCityData = [];
+        });
     }
   }
 };
@@ -161,5 +209,31 @@ export default {
   width: 120px;
   font-size: 16px;
   color: #323332;
+}
+.overlay {
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.data-content {
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 70px 0;
+  background-color: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  .box {
+    padding-left: 20px;
+    height: 40px;
+    border-top: 1px solid #f1f1f1;
+  }
+}
+.element::-webkit-scrollbar {
+  width: 0 !important;
 }
 </style>

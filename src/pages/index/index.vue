@@ -73,19 +73,19 @@
           />
         </van-popup>
 
-        <div class="ub-box ub-ver " style="height:70px ;width: 100%;margin-top:10px">
+        <div class="ub-box ub-ver" style="height:70px ;width: 100%;margin-top:10px">
           <div class="ub-box ub-col ub-flex-1 ub-ver-v ub-ver">
             <p style="font-size: 15px;color: #999">交货城市</p>
             <input
               :value="deliveryCity"
               disabled
               placeholder="城市"
-              @click="openCitySelect({deliveryCity:deliveryCity})"
+              @click="openCitySelect({deliveryCity:deliveryCity,flag:0})"
               style="height: 40px;width: 100%;text-align:center;font-size: 26px;color: #323332"
             >
           </div>
           <i
-            class="iconfont icon-feiji- ub-box ub-col  ub-ver-v ub-end"
+            class="iconfont icon-feiji- ub-box ub-col ub-ver-v ub-end"
             style="height: 40px;font-size: 22px;font-weight: 700;color: #323332"
           ></i>
 
@@ -95,7 +95,7 @@
               :value="destinationCity"
               disabled
               placeholder="城市"
-              @click="openCitySelect({destinationCity:destinationCity})"
+              @click="openCitySelect({destinationCity:destinationCity,flag:1})"
               style="height: 40px;width: 100%;text-align:center;font-size: 24px;color: #323332"
             >
           </div>
@@ -260,13 +260,13 @@ export default {
   },
   methods: {
     toggleCheck(index, val) {
-      console.log('选择飞行方式或机型');
+      console.log("选择飞行方式或机型");
       if (index === 1) {
         this.fly_way_arr[val].checked = !this.fly_way_arr[val].checked;
-        console.log('飞行方式：'+JSON.stringify(this.fly_way_arr))
-      }else{
+        console.log("飞行方式：" + JSON.stringify(this.fly_way_arr));
+      } else {
         this.fly_type_arr[val].checked = !this.fly_type_arr[val].checked;
-        console.log('机型'+JSON.stringify(this.fly_type_arr))
+        console.log("机型" + JSON.stringify(this.fly_type_arr));
       }
     },
     openCitySelect(val) {
@@ -478,11 +478,18 @@ export default {
   },
   mounted() {
     this.initData();
-    // console.log(this.$root.$mp.query);
+    //选中城市
+    if (this.$root.$mp.query.cityName && this.$root.$mp.query.cityName !== "") {
+      if (this.$root.$mp.query.flag == 0) {
+        this.deliveryCity = this.$root.$mp.query.cityName;
+      } else {
+        this.destinationCity = this.$root.$mp.query.cityName;
+      }
+    }
     if (this.$root.$mp.query.date && this.$root.$mp.query.date !== "") {
       this.initDate = this.$root.$mp.query.date;
       const date = new Date(this.$root.$mp.query.date);
-      console.log(date);
+      // console.log(date);
       this.date = date.getMonth() + 1 + "月" + date.getDate() + "日";
       let day;
       switch (date.getDay()) {
@@ -512,14 +519,14 @@ export default {
     }
   },
   onPullDownRefresh() {},
-      //转发
+  //转发
   onShareAppMessage(options) {
     let self = this;
-    var url = '/pages/index/index'
-    console.log('主页转发路径:' + url)
+    var url = "/pages/index/index";
+    console.log("主页转发路径:" + url);
     return {
       // imageUrl: self.data.share_image,
-      title: '我发现这里的仓位好实惠!',
+      title: "我发现这里的仓位好实惠!",
       path: url,
       success: function(res) {
         console.log("转发成功:" + JSON.stringify(res));
@@ -527,7 +534,7 @@ export default {
       fail: function(res) {
         // 转发失败
       }
-    }
+    };
   },
   onClose() {
     this.show = false;
@@ -535,7 +542,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container{
+.container {
   background-color: #f3f3f3;
 }
 .img-box {

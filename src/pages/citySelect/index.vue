@@ -16,8 +16,9 @@
           class="text"
           type="text"
           v-model="searchText"
+          disabled
           placeholder="请输入城市名(如北京/BEIJING/BJ)"
-          @focus="focus($event)"
+          @click="focus($event)"
         >
       </div>
     </div>
@@ -62,7 +63,7 @@
               v-for="(item , index1) in items.list"
               :key="index1"
             >
-              <div class="city-item ub-box ub-ver">{{item}}</div>
+              <div class="city-item ub-box ub-ver" @click="selectCity(item)">{{item}}</div>
             </div>
           </div>
         </div>
@@ -74,6 +75,7 @@
         class="box ub-box ub-ver-v"
         v-for="(item,index) in searchCityData "
         :key="index"
+         @click="selectCity(item.city)"
       >{{item.city}}</div>
     </div>
   </div>
@@ -144,6 +146,9 @@ export default {
       this.searchCityData = [];
       // this.searchText='';
     },
+    selectCity(val){
+      this.$reLaunch('index',{cityName:val,flag:this.$root.$mp.query.flag});
+    }
   },
   watch: {
     searchText: function() {

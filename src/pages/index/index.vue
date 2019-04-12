@@ -131,14 +131,16 @@
         </div>
         <div class="itmebox ub-box ub-ver ub-between">
           <div style="font-size: 15px;font-weight: 600;" class="ft-f">飞行方式</div>
-          <van-checkbox-group :value="result" @change="onSelect(1,$event)" class="ub-box ub-ver">
+          <van-checkbox-group class="ub-box ub-ver">
             <van-checkbox
-              :wx:for="list"
-              :wx:key="index"
+              v-for="(item ,index) in fly_way_arr"
+              :key="index"
               :name="item"
+              v-model="item.checked"
+              @click="toggleCheck(1,index)"
               style="font-size:15px;color:#323332;width:100px;font-weight: 600"
               class="ft-f"
-            >{{ item }}</van-checkbox>
+            >{{ item.name }}</van-checkbox>
           </van-checkbox-group>
         </div>
         <div
@@ -146,14 +148,16 @@
           style="border-bottom: .5px solid #efefef;margin-bottom: 5px;"
         >
           <div style="font-size: 15px;font-weight: 600;" class="ft-f">机型</div>
-          <van-checkbox-group :value="result1" @change="onSelect(2,$event)" class="ub-box ub-ver">
+          <van-checkbox-group class="ub-box ub-ver">
             <van-checkbox
-              :wx:for="list1"
-              :wx:key="index"
+              v-for="(item ,index) in fly_type_arr"
+              :key="index"
               :name="item"
+              v-model="item.checked"
               style="font-size:15px;color:#323332;width:100px;font-weight: 600"
+              @click="toggleCheck(2,index)"
               class="ft-f"
-            >{{ item }}</van-checkbox>
+            >{{ item.name }}</van-checkbox>
           </van-checkbox-group>
         </div>
 
@@ -163,7 +167,12 @@
     <div class="query-list ub-box ub-col">
       <div class="title">快捷查询</div>
       <div class="content ub-box z-scroll-type ub-flex-1">
-        <div v-for="item in continent_info" class="itme ub-box ub-col ub-ver-v ub-ver">
+        <div
+          v-for="item in continent_info"
+          :key="item"
+          class="itme ub-box ub-col ub-ver-v ub-ver"
+          v-if="item.name!='全部'"
+        >
           <img :src="item.image" alt class="z-circle">
           <p class="txt">{{item.name}}</p>
         </div>
@@ -229,8 +238,17 @@ export default {
       value3: "",
       value4: "",
       list: ["直飞", "转飞"],
+      fly_way_arr: [
+        { name: "直飞", checked: true },
+        { name: "转飞", checked: true }
+      ],
       result: [],
       list1: ["纯货机", "客机腹舱"],
+      fly_type_arr: [
+        { name: "纯货机", checked: true },
+        { name: "客机腹舱", checked: true }
+      ],
+      items_length: 0,
       result1: [],
       currentDate: new Date().getTime(),
       minDate: new Date().getTime(),
@@ -244,6 +262,16 @@ export default {
     };
   },
   methods: {
+    toggleCheck(index, val) {
+      console.log('选择飞行方式或机型');
+      if (index === 1) {
+        this.fly_way_arr[val].checked = !this.fly_way_arr[val].checked;
+        console.log('飞行方式：'+JSON.stringify(this.fly_way_arr))
+      }else{
+        this.fly_type_arr[val].checked = !this.fly_type_arr[val].checked;
+        console.log('机型'+JSON.stringify(this.fly_type_arr))
+      }
+    },
     openCitySelect(val) {
       this.$navigateTo("citySelect", val);
     },
@@ -259,11 +287,93 @@ export default {
         })
         .catch(err => {});
     },
+    wxRegCallback() {
+      // 用于微信JS-SDK回调
+      this.wxShareTimeline();
+      this.wxShareAppMessage();
+    },
+    wxShareAppMessage() {
+      // 微信自定义分享给朋友
+      let option = {
+        title: "限时团购周 挑战最低价", // 分享标题, 请自行替换
+        desc: "限时团购周 挑战最低价", // 分享描述, 请自行替换
+        link: window.location.href.split("#")[0], // 分享链接，根据自身项目决定是否需要split
+        imgUrl: "logo.png", // 分享图标, 请自行替换，需要绝对路径
+        success: () => {
+          alert("分享成功");
+        },
+        error: () => {
+          alert("已取消分享");
+        }
+      };
+      // 将配置注入通用方法
+      wxapi.ShareAppMessage(option);
+    },
     onSelect(index, val) {
       switch (index) {
         case 1:
+          let value = val.mp.detail;
+          let items = this.fly_way_arr;
           this.result = val.mp.detail;
-
+          console.log("飞行");
+          for (var i = 0; i < items.length; i++) {
+            if (value.length <= 0) {
+              items[i]["checked"] = false;
+              this.items_length = value.length;
+            } else {
+              if (this.items_length != 0) {
+                if (value.length == 2) {
+                  items[i]["checked"] = true;
+                } else {
+                  if (items[i]["name"] != value) {
+                    if (
+                      items[i]["checked"] == "true" ||
+                      items[i]["checked"] == true
+                    ) {
+                      items[i]["checked"] = false;
+                    } else {
+                      items[i]["checked"] = true;
+                    }
+                  } else if (value.indexOf(items[i]["name"]) != -1) {
+                    if (
+                      items[i]["checked"] == "false" ||
+                      items[i]["checked"] == false
+                    ) {
+                      items[i]["checked"] = false;
+                    } else {
+                      items[i]["checked"] = true;
+                    }
+                  }
+                }
+              } else {
+                if (value.indexOf(items[i]["name"]) != -1) {
+                  if (value.length == 2) {
+                    this.items_length = value.length;
+                  }
+                  if (
+                    items[i]["checked"] == true ||
+                    items[i]["checked"] == "true"
+                  ) {
+                    items[i]["checked"] = false;
+                  } else {
+                    items[i]["checked"] = true;
+                  }
+                  items[i]["checked"] = true;
+                } else {
+                  if (
+                    items[i]["checked"] == false ||
+                    items[i]["checked"] == "false"
+                  ) {
+                    items[i]["checked"] = false;
+                  } else {
+                    items[i]["checked"] = true;
+                  }
+                }
+              }
+            }
+          }
+          this.result = value;
+          this.fly_way_arr = items;
           break;
         case 2:
           this.result1 = val.mp.detail;
@@ -312,6 +422,7 @@ export default {
       }
     },
     onConfirm(index) {
+      console.log(11);
       switch (index) {
         case 1:
           this.destinationCountry = this.value;
@@ -404,6 +515,23 @@ export default {
     }
   },
   onPullDownRefresh() {},
+      //转发
+  onShareAppMessage(options) {
+    let self = this;
+    var url = '/pages/index/index'
+    console.log('主页转发路径:' + url)
+    return {
+      // imageUrl: self.data.share_image,
+      title: '我发现这里的仓位好实惠!',
+      path: url,
+      success: function(res) {
+        console.log("转发成功:" + JSON.stringify(res));
+      },
+      fail: function(res) {
+        // 转发失败
+      }
+    }
+  },
   onClose() {
     this.show = false;
   }

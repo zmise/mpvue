@@ -58,7 +58,12 @@
           :key="item"
           @click="selectday(index,index1)"
         >{{item.day}}</div>
-        <div class="day" v-for="(item2,index2) in items.slice(0, items.length % 7)" :key="index2">1</div>
+         <div class="day" v-if="nullBox[index]>0"></div>
+        <div class="day" v-if="nullBox[index]>1"></div>
+        <div class="day" v-if="nullBox[index]>2"></div>
+        <div class="day" v-if="nullBox[index]>3"></div>
+        <div class="day" v-if="nullBox[index]>4"></div>
+        <div class="day" v-if="nullBox[index]>5"></div>
       </div>
     </div>
     <!-- <div class="none88" v-if="{{pagetype=='day'}}"></div> -->
@@ -70,7 +75,8 @@ export default {
   data() {
     return {
       date: [],
-      weeks: []
+      weeks: [],
+      nullBox:[],
     };
   },
   mounted() {
@@ -159,7 +165,6 @@ export default {
           return false;
         }
       };
-      console.log(yearList);
       for (let i = 0; i < yearList.length; i++) {
         //遍历年
         let mList;
@@ -294,6 +299,17 @@ export default {
 
       this.date = dataAll2;
       this.weeks = weeks;
+      console.log(this.date)
+      console.log(this.weeks)
+      for(let k =0;k<this.weeks.length;k++){
+        if((7-this.date[k].length%7)>=this.weeks[k]){
+          this.nullBox[k] =(7-this.date[k].length%7)-this.weeks[k]
+
+        }else{
+          this.nullBox[k] =7+(7-this.date[k].length%7)-this.weeks[k]
+        }
+      }
+
     }
   }
 };

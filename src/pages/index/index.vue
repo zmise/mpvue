@@ -73,7 +73,7 @@
           />
         </van-popup>
 
-        <div class="ub-box ub-ver" style="height:70px ;width: 100%;margin-top:10px">
+        <div class="ub-box ub-ver " style="height:70px ;width: 100%;margin-top:10px">
           <div class="ub-box ub-col ub-flex-1 ub-ver-v ub-ver">
             <p style="font-size: 15px;color: #999">交货城市</p>
             <input
@@ -81,11 +81,11 @@
               disabled
               placeholder="城市"
               @click="openCitySelect({deliveryCity:deliveryCity})"
-              style="height: 40px;width: 100%;text-align:center;font-size: 24px;font-weight: 700;color: #323332"
+              style="height: 40px;width: 100%;text-align:center;font-size: 26px;color: #323332"
             >
           </div>
           <i
-            class="iconfont icon-feiji- ub-box ub-col ub-flex-1 ub-ver-v ub-end"
+            class="iconfont icon-feiji- ub-box ub-col  ub-ver-v ub-end"
             style="height: 40px;font-size: 22px;font-weight: 700;color: #323332"
           ></i>
 
@@ -96,7 +96,7 @@
               disabled
               placeholder="城市"
               @click="openCitySelect({destinationCity:destinationCity})"
-              style="height: 40px;width: 100%;text-align:center;font-size: 24px;font-weight: 700;color: #323332"
+              style="height: 40px;width: 100%;text-align:center;font-size: 24px;color: #323332"
             >
           </div>
         </div>
@@ -130,7 +130,7 @@
           <van-icon name="arrow" style="font-size:24px;color:#bbb"/>
         </div>
         <div class="itmebox ub-box ub-ver ub-between">
-          <div style="font-size: 15px;font-weight: 600;" class="ft-f">飞行方式</div>
+          <div style="font-size: 15px;" class="ft-f">飞行方式</div>
           <van-checkbox-group class="ub-box ub-ver">
             <van-checkbox
               v-for="(item ,index) in fly_way_arr"
@@ -138,7 +138,7 @@
               :name="item"
               v-model="item.checked"
               @click="toggleCheck(1,index)"
-              style="font-size:15px;color:#323332;width:100px;font-weight: 600"
+              style="font-size:15px;color:#323332;width:100px;"
               class="ft-f"
             >{{ item.name }}</van-checkbox>
           </van-checkbox-group>
@@ -147,14 +147,14 @@
           class="itmebox ub-box ub-ver ub-between"
           style="border-bottom: .5px solid #efefef;margin-bottom: 5px;"
         >
-          <div style="font-size: 15px;font-weight: 600;" class="ft-f">机型</div>
+          <div style="font-size: 15px;" class="ft-f">机型</div>
           <van-checkbox-group class="ub-box ub-ver">
             <van-checkbox
               v-for="(item ,index) in fly_type_arr"
               :key="index"
               :name="item"
               v-model="item.checked"
-              style="font-size:15px;color:#323332;width:100px;font-weight: 600"
+              style="font-size:15px;color:#323332;width:100px;"
               @click="toggleCheck(2,index)"
               class="ft-f"
             >{{ item.name }}</van-checkbox>
@@ -193,9 +193,6 @@
           <div class="txt-content ub-box ub-col">
             <strong>{{item.fly_site}}-{{item.stopovers_site!==''?item.stopovers_site+'':''}}{{item.arrive_site}}</strong>
             <p>25元/kg</p>
-          </div>
-          <div class="date">
-            <p>3月11日</p>
           </div>
         </div>
       </div>
@@ -538,8 +535,11 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.container{
+  background-color: #f3f3f3;
+}
 .img-box {
-  height: 235px;
+  height: 232px;
   width: 100%;
   background-color: #2864c6;
   overflow: hidden;
@@ -557,7 +557,7 @@ export default {
   flex-direction: column;
   border-radius: 6px;
   position: absolute;
-  top: 172px;
+  top: 169px;
   right: 5px;
   left: 5px;
   height: 345px;
@@ -578,7 +578,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 18px;
   color: #fff;
-  font-weight: 700;
+  // font-weight: 700;
 }
 
 .tabs .active {
@@ -619,7 +619,7 @@ export default {
   }
   /deep/ .van-button {
     position: absolute;
-    bottom: 10px;
+    bottom: 13px;
     margin: 0 20px;
     border-radius: 8px;
     width: 90%;
@@ -688,13 +688,13 @@ export default {
       .txt {
         color: #424242;
         font-size: 15px;
-        font-weight: 700;
+        // font-weight: 700;
         margin-bottom: 5px;
       }
 
       img {
-        width: 60px;
-        height: 60px;
+        width: 45px;
+        height: 45px;
       }
     }
   }
